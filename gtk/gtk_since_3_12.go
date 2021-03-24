@@ -358,10 +358,32 @@ func (fb *FlowBox) GetSelectionMode() SelectionMode {
 	return SelectionMode(c)
 }
 
-// TODO gtk_flow_box_set_filter_func()
-// TODO gtk_flow_box_invalidate_filter()
-// TODO gtk_flow_box_set_sort_func()
-// TODO gtk_flow_box_invalidate_sort()
+// FlowBoxFilterFunc is a representation of GtkFlowBoxFilterFunc
+type FlowBoxFilterFunc func(child *FlowBoxChild) bool
+
+// SetFilterFunc is a wrapper around gtk_flow_box_set_filter_func
+func (fb *FlowBox) SetFilterFunc(fn FlowBoxFilterFunc) {
+	C._gtk_flow_box_set_filter_func(fb.native(), C.gpointer(callback.Assign(fn)))
+}
+
+// InvalidateFilter is a wrapper around gtk_flow_box_invalidate_filter().
+func (fb *FlowBox) InvalidateFilter() {
+	C.gtk_flow_box_invalidate_filter(fb.native())
+}
+
+// FlowBoxSortFunc is a representation of GtkListBoxSortFunc
+type FlowBoxSortFunc func(child1 *FlowBoxChild, child2 *FlowBoxChild) int
+
+// SetSortFunc is a wrapper around gtk_flow_box_set_sort_func
+func (fb *FlowBox) SetSortFunc(fn FlowBoxSortFunc) {
+	C._gtk_flow_box_set_sort_func(fb.native(), C.gpointer(callback.Assign(fn)))
+}
+
+// InvalidateSort is a wrapper around gtk_flow_box_invalidate_sort().
+func (fb *FlowBox) InvalidateSort() {
+	C.gtk_flow_box_invalidate_sort(fb.native())
+}
+
 // TODO 3.18 gtk_flow_box_bind_model()
 
 /*
